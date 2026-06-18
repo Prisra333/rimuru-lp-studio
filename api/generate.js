@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${key}`,
       },
       body: JSON.stringify({
-        model: body.model || 'moonshotai/Kimi-K2.7-Code',
+        model: body.model || 'Qwen/Qwen2.5-7B-Instruct',
         max_tokens: body.max_tokens || 2000,
         messages: [
           ...(body.system ? [{ role: 'system', content: body.system }] : []),
