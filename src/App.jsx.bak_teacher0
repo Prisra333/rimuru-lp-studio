@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { TEACHER_DARK } from './teacher.js';
 
 /* ═══════════════════════════════════════════
    TOKENS & CONSTANTS
@@ -100,7 +99,7 @@ Rules:
 - Fully responsive
 - Include smooth scroll animations and IntersectionObserver reveals
 - Return ONLY raw HTML from <!DOCTYPE html> to </html>
-- No explanation, no markdown code fences${template === 'dark' ? '\n\nReference design DNA — match this CSS aesthetic and section structure exactly; adapt ALL copy to the product (never copy reference text verbatim):\n' + TEACHER_DARK : ''}`;
+- No explanation, no markdown code fences`;
 
   const msg = `Product: ${brief.name}
 Catchcopy: ${proposal.catchcopy}
