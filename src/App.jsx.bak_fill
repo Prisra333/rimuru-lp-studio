@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { TEACHER_DARK } from './teacher.js';
-import { FILL_TEMPLATES, fillTemplate, proposalToData } from './templates.js';
 
 /* ═══════════════════════════════════════════
    TOKENS & CONSTANTS
@@ -399,19 +398,18 @@ function TemplateStep({ onNext, onBack }) {
       </p>
 
       {/* Template cards */}
-      <div style={{ display:'flex', gap:'1rem', overflowX:'auto', marginBottom:'2rem', paddingBottom:'.5rem', scrollSnapType:'x mandatory', WebkitOverflowScrolling:'touch' }}>
-        {[...TEMPLATES, ...FILL_TEMPLATES].map(t => (
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1rem', marginBottom:'2rem' }}>
+        {TEMPLATES.map(t => (
           <button key={t.id} onClick={() => setSelected(t.id)} style={{
             background: selected === t.id ? C.bg3 : C.bg2,
             border:    `1px solid ${selected === t.id ? C.accent : C.border}`,
-            padding:'1.5rem 1rem', cursor:'pointer', textAlign:'left', flex:'0 0 190px', scrollSnapAlign:'start',
+            padding:'1.5rem 1rem', cursor:'pointer', textAlign:'left',
             transition:'all .15s',
           }}>
             {/* Mini preview strip */}
             <div style={{
               height:'60px', marginBottom:'1rem', borderRadius:'2px',
-              background: t.preview ? t.preview :
-                          t.id === 'dark'  ? 'linear-gradient(135deg,#060708 60%,#B8A88A20)' :
+              background: t.id === 'dark'  ? 'linear-gradient(135deg,#060708 60%,#B8A88A20)' :
                           t.id === 'light' ? 'linear-gradient(135deg,#fff 60%,#e0e0ff)' :
                           'linear-gradient(135deg,#060708 50%,#fff 50%)',
               border:`1px solid ${C.border}`,
@@ -464,12 +462,6 @@ function PreviewStep({ brief, proposal, template, mixRatio, onNext, onBack }) {
 
   const fetch_ = () => {
     if (isGenLp) { setLoading(false); return; }
-    const fillTpl = FILL_TEMPLATES.find(t => t.id === template);
-    if (fillTpl) {
-      try { setHtml(fillTemplate(fillTpl.html, proposalToData(brief, proposal), fillTpl.tokens)); }
-      catch (e) { setError(e.message); }
-      setLoading(false); return;
-    }
     setLoading(true); setError(null);
     const { sys, msg } = genHtml(brief, proposal, template, mixRatio);
     callClaude(sys, msg, 8000)

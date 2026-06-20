@@ -1,0 +1,200 @@
+/* RIMURU LP STUDIO — fill templates + engine (B-1) */
+
+const MONAKA_TOKENS = {
+  '--bg':'#060708', '--bg2':'#0D0E11', '--text':'#E4DFCF', '--dim':'#8A8476',
+  '--muted':'#3E3C45', '--accent':'#B8A88A', '--bord':'rgba(184,168,138,.12)',
+  '--serif':"'Crimson Pro','Hiragino Mincho ProN',Georgia,serif",
+  '--mono':"'JetBrains Mono','Courier New',monospace",
+  '--sans':"'Inter','Hiragino Sans',system-ui,sans-serif",
+};
+
+const MONAKA_HTML = `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PRODUCT}}</title>
+<meta name="description" content="{{SUBCOPY}}">
+<meta name="theme-color" content="#060708">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,400&family=JetBrains+Mono:wght@300;400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{ {{ROOT}} }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+a{color:inherit;text-decoration:none}
+#pre{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:flex-end;padding:2.5rem;transition:transform .85s cubic-bezier(.76,0,.24,1)}
+#pre.done{transform:translateY(-102%)}
+#pnum{font:300 clamp(7rem,26vw,20rem)/.85 var(--mono);color:var(--text);letter-spacing:-.04em}
+#cur{position:fixed;width:7px;height:7px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,border .25s;display:none}
+@media(pointer:fine){#cur{display:block}}
+#cur.big{width:34px;height:34px;background:transparent;border:1px solid var(--accent)}
+nav{position:fixed;top:0;left:0;right:0;z-index:99;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.logo{font:300 .75rem/1 var(--mono);letter-spacing:.16em;color:var(--dim);pointer-events:all}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:bl 2.2s ease-in-out infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
+.wrap{max-width:1080px;margin:0 auto;padding:0 2rem}
+section{padding:clamp(5rem,12vh,9rem) 0;border-top:1px solid var(--bord)}
+.eyebrow{font:300 .72rem/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+h1{font:300 clamp(3rem,9vw,7rem)/.9 var(--serif);letter-spacing:-.02em;color:var(--text)}
+h2{font:300 clamp(2rem,5vw,3.4rem)/1.05 var(--serif);color:var(--text)}
+h3{font:500 1.4rem/1.2 var(--serif);color:var(--text)}
+p{color:var(--dim)}
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:8rem 2rem 4rem}
+.h-el{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
+.h-el.in{opacity:1;transform:none}
+.hsub{font:300 clamp(1rem,2vw,1.2rem)/1.8 var(--serif);color:var(--dim);max-width:540px;margin-top:1.6rem}
+.btn{font:400 .82rem/1 var(--mono);letter-spacing:.1em;background:var(--accent);color:var(--bg);padding:1.05rem 2.3rem;display:inline-block;cursor:pointer;transition:opacity .2s;border:none}
+.btn:hover{opacity:.8}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2.6rem;margin-top:3rem}
+.idx{font:300 .68rem/1 var(--mono);letter-spacing:.18em;color:var(--accent);margin-bottom:1rem}
+.fitem h3{margin-bottom:.5rem}
+.fitem p{font:300 .9rem/1.8 var(--sans);color:var(--dim)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about p{font:300 clamp(1rem,1.6vw,1.1rem)/1.9 var(--serif);color:var(--dim)}
+.ctaw{text-align:center;max-width:760px;margin:0 auto}
+.ctaw h2{margin-bottom:1.5rem}
+footer{padding:4rem 2rem 3rem;border-top:1px solid var(--bord);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:2rem;max-width:1080px;margin:0 auto}
+.fbig{font:300 clamp(2.5rem,7vw,5rem)/.9 var(--serif);color:var(--text)}
+.fcr{font:300 .62rem/1.8 var(--mono);color:var(--muted);letter-spacing:.06em}
+@media(max-width:680px){.about{grid-template-columns:1fr;gap:2rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:opacity .2s!important}.h-el,.reveal{opacity:1!important;transform:none!important}#pre{display:none}}
+</style>
+</head>
+<body>
+<div id="pre"><span id="pnum">0</span></div>
+<div id="cur"></div>
+<nav><a class="logo" href="#">{{PRODUCT}}</a><span class="ndot"></span></nav>
+
+<section id="hero">
+  <p class="eyebrow h-el" id="e0">{{TAGLINE}}</p>
+  <h1 class="h-el" id="e1" style="transition-delay:.12s">{{CATCHCOPY}}</h1>
+  <p class="hsub h-el" id="e2" style="transition-delay:.24s">{{SUBCOPY}}</p>
+  <div class="h-el" id="e3" style="transition-delay:.38s;margin-top:2.5rem">
+    <a class="btn" href="{{CTA_URL}}">{{CTA_TEXT}}</a>
+  </div>
+</section>
+
+<section><div class="wrap">
+  <p class="eyebrow reveal">Features</p>
+  <div class="grid">
+<!--FEATURES_START-->
+    <div class="fitem reveal">
+      <p class="idx">{{F_IDX}}</p>
+      <h3>{{F_TITLE}}</h3>
+      <p>{{F_BODY}}</p>
+    </div>
+<!--FEATURES_END-->
+  </div>
+</div></section>
+
+<section><div class="wrap about">
+  <div class="reveal">
+    <p class="eyebrow" style="margin-bottom:1.5rem">About</p>
+    <h2>{{ABOUT_TITLE}}</h2>
+  </div>
+  <div class="reveal" style="transition-delay:.12s"><p>{{ABOUT_BODY}}</p></div>
+</div></section>
+
+<section><div class="ctaw reveal">
+  <h2>{{CTA_COPY}}</h2>
+  <a class="btn" href="{{CTA_URL}}">{{CTA_TEXT}}</a>
+</div></section>
+
+<footer>
+  <div class="fbig">{{PRODUCT}}</div>
+  <p class="fcr">(c) {{YEAR}} {{PRODUCT}}<br>Made with RIMURU LP STUDIO</p>
+</footer>
+
+<script>
+(function(){
+  var n=document.getElementById('pnum'),pre=document.getElementById('pre'),f=0,T=70;
+  (function t(){f++;var e=1-Math.pow(1-f/T,3);n.textContent=Math.round(e*100);if(f>=T){n.textContent=100;setTimeout(done,180);}else{requestAnimationFrame(t);}})();
+  function done(){pre.classList.add('done');setTimeout(function(){document.querySelectorAll('.h-el').forEach(function(el){el.classList.add('in');});},650);}
+})();
+var cur=document.getElementById('cur');
+if(cur&&window.matchMedia('(pointer:fine)').matches){
+  var mx=0,my=0,cx=0,cy=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){cur.classList.add('big');});el.addEventListener('mouseleave',function(){cur.classList.remove('big');});});
+  (function loop(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop);})();
+}
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
+`;
+
+export const FILL_TEMPLATES = [
+  {
+    id: 'monaka', name: 'MONAKA', mode: 'fill',
+    desc: '漆黒 × 真鍮\n流し込み・高品質',
+    preview: 'linear-gradient(135deg,#060708 55%,#B8A88A)',
+    tokens: MONAKA_TOKENS,
+    html: MONAKA_HTML,
+  },
+];
+
+function esc(v){
+  return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function tokensToCss(tokens){
+  return Object.keys(tokens).map(function(k){ return k + ':' + tokens[k]; }).join(';');
+}
+
+export function fillTemplate(html, data, tokens){
+  let out = html;
+  out = out.split('{{ROOT}}').join(tokensToCss(tokens || (data && data.tokens) || MONAKA_TOKENS));
+  const FS = '<!--FEATURES_START-->', FE = '<!--FEATURES_END-->';
+  const i = out.indexOf(FS), j = out.indexOf(FE);
+  if (i !== -1 && j !== -1) {
+    const block = out.slice(i + FS.length, j);
+    const feats = ((data && data.features) || []).map(function(f){
+      return block.split('{{F_IDX}}').join(esc(f.idx))
+                  .split('{{F_TITLE}}').join(esc(f.title))
+                  .split('{{F_BODY}}').join(esc(f.body));
+    }).join('');
+    out = out.slice(0, i) + feats + out.slice(j + FE.length);
+  }
+  const map = {
+    '{{PRODUCT}}': esc(data.product), '{{TAGLINE}}': esc(data.tagline),
+    '{{CATCHCOPY}}': esc(data.catchcopy), '{{SUBCOPY}}': esc(data.subcopy),
+    '{{ABOUT_TITLE}}': esc(data.aboutTitle), '{{ABOUT_BODY}}': esc(data.aboutBody),
+    '{{CTA_COPY}}': esc(data.ctaCopy), '{{CTA_TEXT}}': esc(data.ctaText),
+    '{{CTA_URL}}': esc(data.ctaUrl), '{{YEAR}}': esc(data.year),
+  };
+  Object.keys(map).forEach(function(k){ out = out.split(k).join(map[k]); });
+  return out;
+}
+
+export function proposalToData(brief, proposal){
+  proposal = proposal || {};
+  const sections = proposal.sections || [];
+  const find = function(id){ return sections.find(function(s){ return s.id === id; }); };
+  const aboutSec = find('about'), ctaSec = find('cta'), featSec = find('features');
+  const items = (featSec && featSec.items) || proposal.keyMessages || [];
+  const features = items.slice(0,3).map(function(it, i){
+    const isStr = typeof it === 'string';
+    return { idx: String(i+1).padStart(2,'0'),
+             title: isStr ? it : (it.title || it.id || ''),
+             body: isStr ? '' : (it.content || '') };
+  });
+  return {
+    product: brief.name,
+    tagline: (proposal.keyMessages && proposal.keyMessages[0]) || brief.target || brief.name,
+    catchcopy: proposal.catchcopy || brief.name,
+    subcopy: proposal.subcopy || brief.desc || '',
+    aboutTitle: (aboutSec && aboutSec.title) || 'About',
+    aboutBody: (aboutSec && aboutSec.content) || proposal.tone || brief.desc || '',
+    features: features,
+    ctaCopy: (ctaSec && (ctaSec.content || ctaSec.title)) || proposal.catchcopy || '',
+    ctaText: (ctaSec && ctaSec.buttonText) || 'はじめる',
+    ctaUrl: '#',
+    year: new Date().getFullYear(),
+  };
+}
