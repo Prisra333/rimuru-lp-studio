@@ -56,9 +56,7 @@ async function callClaude(system, userMsg, maxTokens = 8000) {
 ═══════════════════════════════════════════ */
 function genProposal(brief) {
   const sys = `You are RIMURU LP STUDIO. Generate landing page proposals.
-Respond ONLY with valid JSON — no markdown, no code blocks, no explanation.
-
-【最重要・言語ロック】出力の catchcopy・subcopy・tone、および sections 内の title/content/items、keyMessages は、すべて自然な日本語で書くこと。中国語（簡体字・繁体字）や英語の単語・文を出力に絶対に混ぜない。商品名は Product に与えられた表記をそのまま使い、別言語へ変換・改変しない（例: カフェ→力afe のような崩しは禁止）。固有名詞・ブランド名のみ原表記を保持してよい。`;
+Respond ONLY with valid JSON — no markdown, no code blocks, no explanation.`;
   const msg = `Generate an LP proposal:
 Product: ${brief.name}
 Description: ${brief.desc}
