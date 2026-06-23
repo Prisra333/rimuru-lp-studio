@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { TEACHER_DARK } from './teacher.js';
-import { FILL_TEMPLATES, fillTemplate, proposalToData, blendTokens, BLEND_PALETTES } from './templates.js';
+import { FILL_TEMPLATES, fillTemplate, proposalToData } from './templates.js';
 
 /* ═══════════════════════════════════════════
    TOKENS & CONSTANTS
@@ -459,16 +459,6 @@ function TemplateStep({ onNext, onBack }) {
    STEP 4: PREVIEW
 ═══════════════════════════════════════════ */
 function PreviewStep({ brief, proposal, template, mixRatio, onNext, onBack }) {
-  const [bDonor, setBDonor] = useState(null);
-  const [bMix, setBMix] = useState(40);
-  useEffect(() => {
-    const ft = FILL_TEMPLATES.find(t => t.id === template);
-    if (!ft) return;
-    try {
-      const tk = bDonor ? blendTokens(ft.tokens, bDonor.tokens, bMix / 100) : ft.tokens;
-      setHtml(fillTemplate(ft.html, proposalToData(brief, proposal), tk));
-    } catch (e) { setError(e.message); }
-  }, [template, bDonor, bMix]);
   const [html, setHtml]       = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
@@ -527,21 +517,6 @@ function PreviewStep({ brief, proposal, template, mixRatio, onNext, onBack }) {
         </span>
       </div>
 
-      {(!isGenLp && FILL_TEMPLATES.find(t => t.id === template)) && (
-        <div style={{ marginBottom:'1.25rem', padding:'1rem', border:`1px solid ${C.border}`, background: C.bg2 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'.7rem' }}>
-            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:'.6rem', letterSpacing:'.14em', color: C.accent, textTransform:'uppercase' }}>PALETTE BLEND</span>
-            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:'.6rem', color: C.muted }}>{bDonor ? bDonor.name + '  ' + bMix + '%' : 'OFF'}</span>
-          </div>
-          <div style={{ display:'flex', gap:'.4rem', flexWrap:'wrap', marginBottom:'.85rem' }}>
-            <button onClick={() => setBDonor(null)} style={{ padding:'.32rem .62rem', fontFamily:"'JetBrains Mono',monospace", fontSize:'.62rem', cursor:'pointer', borderRadius:'2px', background: !bDonor ? C.accent : 'transparent', color: !bDonor ? '#0a0a0a' : C.dim, border:`1px solid ${!bDonor ? C.accent : C.border}` }}>原色</button>
-            {BLEND_PALETTES.map(p => (
-              <button key={p.id} onClick={() => setBDonor(p)} style={{ padding:'.32rem .62rem', fontFamily:"'JetBrains Mono',monospace", fontSize:'.62rem', cursor:'pointer', borderRadius:'2px', background: (bDonor && bDonor.id === p.id) ? p.tokens['--accent'] : 'transparent', color: (bDonor && bDonor.id === p.id) ? '#0a0a0a' : C.dim, border:`1px solid ${(bDonor && bDonor.id === p.id) ? p.tokens['--accent'] : C.border}` }}>{p.name}</button>
-            ))}
-          </div>
-          <input type="range" min="0" max="100" value={bMix} disabled={!bDonor} onChange={e => setBMix(Number(e.target.value))} style={{ width:'100%', accentColor: C.accent, opacity: bDonor ? 1 : 0.4 }} />
-        </div>
-      )}
       {isGenLp ? (
         <div style={{ padding:'1.5rem', background: C.bg2,
           border:`1px solid ${C.border}`, marginBottom:'2rem' }}>

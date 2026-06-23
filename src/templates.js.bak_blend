@@ -310,29 +310,6 @@ export const FILL_TEMPLATES=[
 function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function tokensToCss(t){return Object.keys(t).map(function(k){return k+':'+t[k];}).join(';');}
 
-function _hexToRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(function(c){return c+c;}).join('');var n=parseInt(h,16);return [(n>>16)&255,(n>>8)&255,n&255];}
-function _rgbToHex(r,g,b){function c(x){return ('0'+Math.round(x).toString(16)).slice(-2);}return '#'+c(r)+c(g)+c(b);}
-function _isHex(v){return typeof v==='string'&&/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v.trim());}
-export function blendTokens(base,donor,ratio){
-  ratio=Math.max(0,Math.min(1,ratio||0));
-  var out={};
-  Object.keys(base).forEach(function(k){
-    var b=base[k],d=donor&&donor[k];
-    if(_isHex(b)&&_isHex(d)){
-      var rb=_hexToRgb(b),rd=_hexToRgb(d);
-      out[k]=_rgbToHex(rb[0]+(rd[0]-rb[0])*ratio,rb[1]+(rd[1]-rb[1])*ratio,rb[2]+(rd[2]-rb[2])*ratio);
-    } else { out[k]=b; }
-  });
-  return out;
-}
-export const BLEND_PALETTES=[
-  {id:'jade',name:'翡翠',tokens:{'--bg':'#05080A','--bg2':'#0B1410','--text':'#DCEFE4','--dim':'#7FA08F','--muted':'#2F3E38','--accent':'#7FB29A'}},
-  {id:'lapis',name:'瑠璃',tokens:{'--bg':'#05070C','--bg2':'#0A101C','--text':'#DCE4F2','--dim':'#7F8CA8','--muted':'#2F3645','--accent':'#6A86B8'}},
-  {id:'wine',name:'葡萄',tokens:{'--bg':'#0A0608','--bg2':'#160B11','--text':'#F2DCE6','--dim':'#A87F90','--muted':'#452F38','--accent':'#9A6A7A'}},
-  {id:'scarlet',name:'緋',tokens:{'--bg':'#0A0606','--bg2':'#160B0A','--text':'#F2E0DC','--dim':'#A8847F','--muted':'#45302F','--accent':'#C56A5A'}},
-  {id:'cream',name:'白練',tokens:{'--bg':'#EFEAD9','--bg2':'#E3DCC8','--text':'#1A1712','--dim':'#6B6456','--muted':'#C8C0A8','--accent':'#9A7B43'}},
-];
-
 export function fillTemplate(html,data,tokens){
   let out=html;
   out=out.split('{{ROOT}}').join(tokensToCss(tokens||(data&&data.tokens)||MONAKA_TOKENS));
