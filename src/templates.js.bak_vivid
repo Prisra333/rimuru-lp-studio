@@ -326,12 +326,11 @@ export function blendTokens(base,donor,ratio){
   return out;
 }
 export const BLEND_PALETTES=[
-  {id:'jade',name:'翡翠',tokens:{'--bg':'#04140E','--bg2':'#0A2419','--text':'#CFF5E2','--dim':'#5FB892','--muted':'#1E5540','--accent':'#23C386'}},
-  {id:'lapis',name:'瑠璃',tokens:{'--bg':'#050D1C','--bg2':'#0A1A38','--text':'#CFE0F5','--dim':'#5F86C8','--muted':'#1E3766','--accent':'#3D7BE8'}},
-  {id:'wine',name:'葡萄',tokens:{'--bg':'#16060E','--bg2':'#2B0B1B','--text':'#F5CFE0','--dim':'#C85F90','--muted':'#661E40','--accent':'#E83D8B'}},
-  {id:'scarlet',name:'緋',tokens:{'--bg':'#160706','--bg2':'#2B0E0A','--text':'#F5D8CF','--dim':'#C8745F','--muted':'#66302A','--accent':'#F0512F'}},
-  {id:'amber',name:'琥珀',tokens:{'--bg':'#161106','--bg2':'#2B210A','--text':'#F5E8CF','--dim':'#C8A55F','--muted':'#66502A','--accent':'#F0A52F'}},
-  {id:'cream',name:'白練',tokens:{'--bg':'#F2EEE2','--bg2':'#E6DECC','--text':'#1A1712','--dim':'#6B6456','--muted':'#C8C0A8','--accent':'#B8862F'}},
+  {id:'jade',name:'翡翠',tokens:{'--bg':'#05080A','--bg2':'#0B1410','--text':'#DCEFE4','--dim':'#7FA08F','--muted':'#2F3E38','--accent':'#7FB29A'}},
+  {id:'lapis',name:'瑠璃',tokens:{'--bg':'#05070C','--bg2':'#0A101C','--text':'#DCE4F2','--dim':'#7F8CA8','--muted':'#2F3645','--accent':'#6A86B8'}},
+  {id:'wine',name:'葡萄',tokens:{'--bg':'#0A0608','--bg2':'#160B11','--text':'#F2DCE6','--dim':'#A87F90','--muted':'#452F38','--accent':'#9A6A7A'}},
+  {id:'scarlet',name:'緋',tokens:{'--bg':'#0A0606','--bg2':'#160B0A','--text':'#F2E0DC','--dim':'#A8847F','--muted':'#45302F','--accent':'#C56A5A'}},
+  {id:'cream',name:'白練',tokens:{'--bg':'#EFEAD9','--bg2':'#E3DCC8','--text':'#1A1712','--dim':'#6B6456','--muted':'#C8C0A8','--accent':'#9A7B43'}},
 ];
 
 export function fillTemplate(html,data,tokens){
